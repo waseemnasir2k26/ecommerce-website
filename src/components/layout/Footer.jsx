@@ -96,7 +96,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div
           className={cn(
-            'border-t border-white/10 mt-12 pt-8 pb-8',
+            'border-t border-white/10 mt-12 pt-8 pb-4',
             'flex flex-col sm:flex-row items-center justify-between gap-4'
           )}
         >
@@ -112,6 +112,30 @@ export default function Footer() {
               Terms of Service
             </Link>
           </div>
+        </div>
+
+        {/* Credits */}
+        <div className="border-t border-white/5 pt-4 pb-4 text-center">
+          <p className="text-gray-500 text-xs font-body">
+            Built by{' '}
+            <a
+              href="https://www.skynetjoe.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-accent transition-colors"
+            >
+              Skynet Labs
+            </a>
+            {' '}&middot;{' '}
+            <a
+              href="https://www.waseemnasir.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-accent transition-colors"
+            >
+              Waseem Nasir
+            </a>
+          </p>
         </div>
       </div>
     </footer>

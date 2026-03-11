@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Phone, MapPin, ChevronDown, CheckCircle } from 'lucide-react';
 import { cn } from '../utils/cn';
+import { setPageSEO } from '../utils/seo';
 import NewsletterSignup from '../components/sections/NewsletterSignup';
 
 const contactCards = [
@@ -80,7 +81,11 @@ const initialFormData = { name: '', email: '', subject: '', message: '' };
 
 export default function ContactPage() {
   useEffect(() => {
-    document.title = 'Contact — LUXE';
+    setPageSEO({
+      title: 'Contact Us',
+      description: 'Get in touch with LUXE. Email, phone, or visit us. We typically respond within 2 hours. Find answers to FAQs about shipping, returns, and more.',
+      canonical: 'https://luxestore.com/contact',
+    });
   }, []);
 
   // ─── Form state ───
@@ -106,7 +111,7 @@ export default function ContactPage() {
   return (
     <main>
       {/* ─── Hero ─── */}
-      <section className="py-20 lg:py-32 text-center bg-bg">
+      <section aria-label="Contact page hero" className="py-20 lg:py-32 text-center bg-bg">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -124,7 +129,7 @@ export default function ContactPage() {
       </section>
 
       {/* ─── Contact Grid ─── */}
-      <section className="py-12">
+      <section aria-label="Contact Information" className="py-12">
         <div className="max-w-4xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {contactCards.map((card, i) => (
@@ -152,7 +157,7 @@ export default function ContactPage() {
       </section>
 
       {/* ─── Contact Form ─── */}
-      <section className="py-20">
+      <section aria-label="Contact Form" className="py-20">
         <div className="max-w-2xl mx-auto px-6">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -181,6 +186,7 @@ export default function ContactPage() {
                     type="text"
                     name="name"
                     placeholder="Your Name"
+                    aria-label="Your Name"
                     required
                     value={formData.name}
                     onChange={handleChange}
@@ -194,6 +200,7 @@ export default function ContactPage() {
                     type="email"
                     name="email"
                     placeholder="Your Email"
+                    aria-label="Your Email"
                     required
                     value={formData.email}
                     onChange={handleChange}
@@ -209,6 +216,7 @@ export default function ContactPage() {
                 <select
                   name="subject"
                   required
+                  aria-label="Select a subject"
                   value={formData.subject}
                   onChange={handleChange}
                   className={cn(
@@ -232,6 +240,7 @@ export default function ContactPage() {
                 <textarea
                   name="message"
                   placeholder="Your Message"
+                  aria-label="Your Message"
                   required
                   rows={5}
                   value={formData.message}
@@ -290,7 +299,7 @@ export default function ContactPage() {
       </section>
 
       {/* ─── FAQ Accordion ─── */}
-      <section className="py-20 bg-bg-secondary">
+      <section aria-label="Frequently Asked Questions" className="py-20 bg-bg-secondary">
         <div className="max-w-3xl mx-auto px-6">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}

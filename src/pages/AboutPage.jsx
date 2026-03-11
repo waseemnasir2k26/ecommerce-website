@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Gem, Leaf, Users } from 'lucide-react';
 import { cn } from '../utils/cn';
+import { setPageSEO } from '../utils/seo';
 import NewsletterSignup from '../components/sections/NewsletterSignup';
 
 const stats = [
@@ -79,13 +80,17 @@ const fadeUp = {
 
 export default function AboutPage() {
   useEffect(() => {
-    document.title = 'About — LUXE';
+    setPageSEO({
+      title: 'About Us — Our Story',
+      description: 'Learn about LUXE — built on quality, driven by purpose. Discover our mission, our journey, and the team behind the brand. 10,000+ happy customers worldwide.',
+      canonical: 'https://luxestore.com/about',
+    });
   }, []);
 
   return (
     <main>
       {/* ─── Hero ─── */}
-      <section className="min-h-[60vh] bg-bg-secondary flex items-center justify-center">
+      <section aria-label="About LUXE hero" className="min-h-[60vh] bg-bg-secondary flex items-center justify-center">
         <motion.div
           initial="hidden"
           animate="visible"
@@ -102,7 +107,7 @@ export default function AboutPage() {
       </section>
 
       {/* ─── Mission Section ─── */}
-      <section className="py-20 lg:py-32">
+      <section aria-label="Our Mission" className="py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left — Image Placeholder */}
@@ -170,7 +175,7 @@ export default function AboutPage() {
       </section>
 
       {/* ─── Stats Row ─── */}
-      <section className="py-16 bg-primary text-white">
+      <section aria-label="Company Statistics" className="py-16 bg-primary text-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             {stats.map((stat, i) => (
@@ -192,7 +197,7 @@ export default function AboutPage() {
       </section>
 
       {/* ─── Timeline / Journey ─── */}
-      <section className="py-20 lg:py-32">
+      <section aria-label="Our Journey Timeline" className="py-20 lg:py-32">
         <div className="max-w-3xl mx-auto px-6">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -267,7 +272,7 @@ export default function AboutPage() {
       </section>
 
       {/* ─── Team Section ─── */}
-      <section className="py-20 bg-bg-secondary">
+      <section aria-label="Our Team" className="py-20 bg-bg-secondary">
         <div className="max-w-7xl mx-auto px-6">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -318,7 +323,7 @@ export default function AboutPage() {
       </section>
 
       {/* ─── Values Grid ─── */}
-      <section className="py-20 lg:py-32">
+      <section aria-label="Our Values" className="py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {values.map((value, i) => (
@@ -344,7 +349,7 @@ export default function AboutPage() {
       </section>
 
       {/* ─── CTA Banner ─── */}
-      <section className="py-20 bg-primary text-white text-center">
+      <section aria-label="Call to Action" className="py-20 bg-primary text-white text-center">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

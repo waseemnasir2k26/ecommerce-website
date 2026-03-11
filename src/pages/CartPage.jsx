@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Minus, Plus, Trash2, Lock, Tag } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { formatPrice } from '../utils/formatPrice';
+import { setPageSEO } from '../utils/seo';
 import { useCart } from '../hooks/useCart';
 
 const FREE_SHIPPING_THRESHOLD = 75;
@@ -16,7 +17,11 @@ export default function CartPage() {
   const [discountApplied, setDiscountApplied] = useState(false);
 
   useEffect(() => {
-    document.title = 'Cart — LUXE';
+    setPageSEO({
+      title: 'Shopping Cart',
+      description: 'Review your cart and proceed to checkout. Free shipping on orders over $75.',
+      canonical: 'https://luxestore.com/cart',
+    });
   }, []);
 
   const shipping = cartTotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
@@ -258,6 +263,7 @@ export default function CartPage() {
                     value={discountCode}
                     onChange={(e) => setDiscountCode(e.target.value)}
                     placeholder="Discount code"
+                    aria-label="Discount code"
                     className="w-full pl-9 pr-3 py-2.5 rounded-lg border border-border bg-white text-sm font-body focus:outline-none focus:border-accent transition-colors"
                   />
                 </div>

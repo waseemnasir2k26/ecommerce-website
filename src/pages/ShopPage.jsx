@@ -9,6 +9,7 @@ import {
   PackageOpen,
 } from 'lucide-react';
 import { cn } from '../utils/cn';
+import { setPageSEO } from '../utils/seo';
 import products from '../data/products';
 import categories from '../data/categories';
 import ProductCard from '../components/product/ProductCard';
@@ -65,6 +66,7 @@ function FilterSidebar({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search products..."
+            aria-label="Search products"
             className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-border bg-bg-secondary text-sm font-body text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent/40"
           />
         </div>
@@ -198,10 +200,18 @@ export default function ShopPage() {
     }
   }, [category]);
 
-  // Page title
+  // Page SEO
   useEffect(() => {
-    document.title = 'Shop — LUXE';
-  }, []);
+    const activeCat = categories.find((c) => c.id === activeCategory);
+    const categoryName = activeCat?.name;
+    setPageSEO({
+      title: categoryName ? `Shop ${categoryName}` : 'Shop All Products',
+      description: 'Browse our curated collection of premium products. Filter by category, price, and more. Free shipping on orders over $75.',
+      canonical: activeCategory !== 'all'
+        ? `https://luxestore.com/shop/${activeCategory}`
+        : 'https://luxestore.com/shop',
+    });
+  }, [activeCategory]);
 
   // Lock body scroll when mobile filter panel is open
   useEffect(() => {
@@ -295,10 +305,10 @@ export default function ShopPage() {
   return (
     <main>
       {/* ── Header ──────────────────────────────────────────────────────── */}
-      <section className="py-12 bg-bg-secondary">
+      <section aria-label="Shop header" className="py-12 bg-bg-secondary">
         <div className="max-w-7xl mx-auto px-6">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-sm font-body text-text-muted mb-4">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm font-body text-text-muted mb-4">
             <Link to="/" className="hover:text-primary transition-colors">
               Home
             </Link>
@@ -361,7 +371,7 @@ export default function ShopPage() {
           </aside>
 
           {/* ── Product Grid ───────────────────────────────────────────── */}
-          <section className="col-span-1 lg:col-span-3">
+          <section aria-label="Product listing" className="col-span-1 lg:col-span-3">
             {/* Desktop top bar */}
             <div className="hidden lg:flex items-center justify-between mb-6">
               <p className="text-sm font-body text-text-secondary">

@@ -1,10 +1,14 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { setPageSEO } from '../utils/seo';
 
 export default function NotFoundPage() {
   useEffect(() => {
-    document.title = '404 — LUXE';
+    setPageSEO({
+      title: 'Page Not Found',
+      description: "The page you're looking for doesn't exist.",
+    });
   }, []);
 
   return (

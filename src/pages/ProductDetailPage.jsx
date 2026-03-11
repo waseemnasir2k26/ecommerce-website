@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { formatPrice } from '../utils/formatPrice';
+import { setPageSEO } from '../utils/seo';
 import { useCart } from '../hooks/useCart';
 import products from '../data/products';
 import categories from '../data/categories';
@@ -206,12 +207,23 @@ export default function ProductDetailPage() {
     }
   }, [product?.id]);
 
-  // Page title
+  // Page SEO
   useEffect(() => {
     if (product) {
-      document.title = `${product.name} — LUXE`;
+      const truncatedDesc = product.description.length > 160
+        ? product.description.slice(0, 157) + '...'
+        : product.description;
+      setPageSEO({
+        title: product.name,
+        description: truncatedDesc,
+        canonical: `https://luxestore.com/product/${product.slug}`,
+        ogImage: product.images?.[0] || undefined,
+      });
     } else {
-      document.title = 'Product Not Found — LUXE';
+      setPageSEO({
+        title: 'Product Not Found',
+        description: 'The product you are looking for could not be found.',
+      });
     }
   }, [product]);
 
@@ -294,7 +306,7 @@ export default function ProductDetailPage() {
     <main>
       <div className="max-w-7xl mx-auto px-6 py-12">
         {/* ── Breadcrumb ───────────────────────────────────────────────── */}
-        <nav className="flex items-center gap-2 text-sm font-body text-text-muted mb-8 flex-wrap">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm font-body text-text-muted mb-8 flex-wrap">
           <Link to="/" className="hover:text-primary transition-colors">
             Home
           </Link>
@@ -675,7 +687,7 @@ export default function ProductDetailPage() {
 
       {/* ── Related Products ─────────────────────────────────────────────── */}
       {relatedProducts.length > 0 && (
-        <section className="py-20">
+        <section aria-label="Related Products" className="py-20">
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="font-display text-2xl text-primary mb-8">
               You May Also Like

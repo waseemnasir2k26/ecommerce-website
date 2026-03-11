@@ -1,14 +1,77 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Premium e-commerce store — Crafted for those who appreciate the difference." />
+    <meta name="description" content="Shop premium electronics, clothing, accessories, home goods & sports gear at LUXE. Free shipping over $75. 30-day returns. Crafted for those who appreciate the difference." />
+    <meta name="author" content="LUXE" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#1A1A1A" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://luxestore.com/" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="LUXE — Premium E-Commerce" />
+    <meta property="og:description" content="Shop premium electronics, clothing, accessories, home goods & sports gear. Free shipping over $75. 30-day returns. Crafted for those who appreciate the difference." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://luxestore.com/" />
+    <meta property="og:image" content="https://luxestore.com/images/og-image.jpg" />
+    <meta property="og:site_name" content="LUXE" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="LUXE — Premium E-Commerce" />
+    <meta name="twitter:description" content="Shop premium electronics, clothing, accessories, home goods & sports gear. Free shipping over $75. 30-day returns." />
+    <meta name="twitter:image" content="https://luxestore.com/images/og-image.jpg" />
+
+    <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
     <title>LUXE — Premium E-Commerce</title>
+
+    <!-- Structured Data: Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "LUXE",
+      "url": "https://luxestore.com",
+      "logo": "https://luxestore.com/images/logo.png",
+      "sameAs": [
+        "https://www.facebook.com/luxestore",
+        "https://www.instagram.com/luxestore",
+        "https://twitter.com/luxestore",
+        "https://www.linkedin.com/company/luxestore"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+1-555-123-4567",
+        "contactType": "customer service",
+        "email": "hello@luxestore.com",
+        "availableLanguage": "English"
+      }
+    }
+    </script>
+
+    <!-- Structured Data: WebSite with SearchAction -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "LUXE",
+      "url": "https://luxestore.com",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://luxestore.com/shop?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

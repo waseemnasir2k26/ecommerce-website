@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { setPageSEO } from '../utils/seo';
 import HeroSection from '../components/sections/HeroSection';
 import BrandMarquee from '../components/sections/BrandMarquee';
 import CategoryGrid from '../components/sections/CategoryGrid';
@@ -13,19 +14,31 @@ import { testimonials } from '../data/testimonials';
 
 export default function HomePage() {
   useEffect(() => {
-    document.title = 'LUXE — Premium E-Commerce';
+    setPageSEO({
+      title: null,
+      description: 'Shop premium electronics, clothing, accessories, home goods & sports gear. Free shipping over $75. 30-day returns. Discover curated products crafted for those who appreciate the difference.',
+      canonical: 'https://luxestore.com/',
+    });
   }, []);
 
   return (
     <main>
       <HeroSection />
       <BrandMarquee />
-      <CategoryGrid categories={categories} />
-      <FeaturedProducts products={products.slice(0, 8)} />
+      <section aria-label="Shop by Category">
+        <CategoryGrid categories={categories} />
+      </section>
+      <section aria-label="Featured Products">
+        <FeaturedProducts products={products.slice(0, 8)} />
+      </section>
       <BentoGrid />
-      <TestimonialsCarousel testimonials={testimonials} />
+      <section aria-label="Customer Testimonials">
+        <TestimonialsCarousel testimonials={testimonials} />
+      </section>
       <PromoBar />
-      <NewsletterSignup />
+      <section aria-label="Newsletter Signup">
+        <NewsletterSignup />
+      </section>
     </main>
   );
 }

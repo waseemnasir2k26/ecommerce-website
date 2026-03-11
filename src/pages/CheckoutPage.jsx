@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { formatPrice } from '../utils/formatPrice';
+import { setPageSEO } from '../utils/seo';
 import { useCart } from '../hooks/useCart';
 
 const STEPS = [
@@ -68,7 +69,11 @@ export default function CheckoutPage() {
   );
 
   useEffect(() => {
-    document.title = 'Checkout — LUXE';
+    setPageSEO({
+      title: 'Checkout',
+      description: 'Secure checkout. Complete your purchase with confidence.',
+      canonical: 'https://luxestore.com/checkout',
+    });
   }, []);
 
   const shipping = cartTotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;

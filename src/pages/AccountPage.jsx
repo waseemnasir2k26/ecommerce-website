@@ -16,6 +16,7 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { cn } from '../utils/cn';
+import { setPageSEO } from '../utils/seo';
 import OrderHistory from '../components/account/OrderHistory';
 
 const TABS = [
@@ -71,7 +72,11 @@ export default function AccountPage() {
   });
 
   useEffect(() => {
-    document.title = 'Account — LUXE';
+    setPageSEO({
+      title: 'My Account',
+      description: 'Manage your LUXE account, view orders, update addresses, and more.',
+      canonical: 'https://luxestore.com/account',
+    });
   }, []);
 
   const updateProfile = (field, value) => {
