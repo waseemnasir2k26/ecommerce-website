@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Search, User, ShoppingBag, Menu, Grid3X3, ArrowRight } from 'lucide-react';
+import { Search, User, ShoppingBag, Menu, ArrowRight, Heart } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '../../utils/cn';
 import { mainNav } from '../../data/navigation';
@@ -9,21 +9,26 @@ import MobileMenu from './MobileMenu';
 import ProductSearch from '../product/ProductSearch';
 import CartDrawer from '../cart/CartDrawer';
 
+/* ─── Navigation split: left links | center logo | right links + icons ─── */
+const leftNav = ['Shop', 'Collections', 'Lookbook'];
+const rightNav = ['About', 'Contact'];
+
+/* ─── Mega-menu animation ─── */
 const megaMenuVariants = {
   hidden: {
     opacity: 0,
-    y: -8,
-    transition: { duration: 0.2, ease: 'easeIn' },
+    y: -4,
+    transition: { duration: 0.15, ease: 'easeIn' },
   },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] },
   },
   exit: {
     opacity: 0,
-    y: -8,
-    transition: { duration: 0.2, ease: 'easeIn' },
+    y: -4,
+    transition: { duration: 0.15, ease: 'easeIn' },
   },
 };
 
@@ -40,163 +45,162 @@ export default function Navbar() {
   const { cartCount } = useCart();
   const location = useLocation();
 
-  // Determine if we're on a page with a dark hero (home page)
-  const hasDarkHero = location.pathname === '/';
-
-  // Should the navbar be in its transparent "over dark hero" state?
+  /* Dark hero detection — transparent navbar on homepage & lookbook & collections */
+  const darkHeroPages = ['/', '/lookbook', '/collections'];
+  const hasDarkHero = darkHeroPages.includes(location.pathname);
   const isTransparent = hasDarkHero && !scrolled;
 
-  // Scroll listener
+  /* Scroll listener */
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-
+    const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Cart bounce animation when count changes
+  /* Cart bounce */
   useEffect(() => {
     if (cartCount !== prevCartCount.current && prevCartCount.current !== 0) {
       setCartBounce(true);
-      const timer = setTimeout(() => setCartBounce(false), 600);
-      return () => clearTimeout(timer);
+      const t = setTimeout(() => setCartBounce(false), 500);
+      return () => clearTimeout(t);
     }
     prevCartCount.current = cartCount;
   }, [cartCount]);
 
-  // Mega menu hover handlers with delay for UX
-  const handleMegaMenuEnter = () => {
-    if (megaMenuTimeout.current) {
-      clearTimeout(megaMenuTimeout.current);
-      megaMenuTimeout.current = null;
-    }
+  /* Mega-menu hover logic */
+  const megaEnter = () => {
+    if (megaMenuTimeout.current) clearTimeout(megaMenuTimeout.current);
+    megaMenuTimeout.current = null;
     setMegaMenuOpen(true);
   };
-
-  const handleMegaMenuLeave = () => {
-    megaMenuTimeout.current = setTimeout(() => {
-      setMegaMenuOpen(false);
-    }, 150);
+  const megaLeave = () => {
+    megaMenuTimeout.current = setTimeout(() => setMegaMenuOpen(false), 120);
   };
+  const megaClose = () => setMegaMenuOpen(false);
 
-  // Close mega menu on link click
-  const closeMegaMenu = () => {
-    setMegaMenuOpen(false);
-  };
+  /* Find the Shop data for mega-menu */
+  const shopData = mainNav.find((i) => i.name === 'Shop');
+  const shopCategories = shopData?.children?.filter((c) => c.image) || [];
 
-  // Find the "Shop" item in mainNav
-  const shopItem = mainNav.find((item) => item.name === 'Shop');
+  /* Shared link style */
+  const navLinkClass = ({ isActive }) =>
+    cn(
+      'relative text-[13px] font-body font-medium uppercase tracking-[0.08em] transition-colors duration-300 py-1',
+      isActive
+        ? 'text-accent'
+        : isTransparent
+          ? 'text-white/80 hover:text-white'
+          : 'text-primary/70 hover:text-primary'
+    );
 
   return (
     <>
-      <nav
+      <header
         className={cn(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
+          'fixed left-0 right-0 z-50 transition-all duration-500',
+          hasDarkHero ? 'top-0' : 'top-0',
           scrolled
-            ? 'bg-white/70 backdrop-blur-xl border-b border-border/50 shadow-sm'
-            : 'bg-transparent'
+            ? 'bg-white/90 backdrop-blur-2xl shadow-[0_1px_3px_rgba(0,0,0,0.04)] border-b border-black/[0.04]'
+            : hasDarkHero
+              ? 'bg-gradient-to-b from-black/30 to-transparent'
+              : 'bg-white border-b border-border/50'
         )}
       >
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className={cn(
+            'flex items-center justify-between transition-all duration-500',
+            scrolled ? 'h-14' : 'h-16 lg:h-[72px]'
+          )}>
+
+            {/* ═══ LEFT: Nav Links (desktop) ═══ */}
+            <div className="hidden lg:flex items-center gap-7 flex-1">
+              {mainNav
+                .filter((item) => leftNav.includes(item.name))
+                .map((item) => {
+                  if (item.name === 'Shop' && item.children) {
+                    return (
+                      <div
+                        key={item.path}
+                        onMouseEnter={megaEnter}
+                        onMouseLeave={megaLeave}
+                      >
+                        <NavLink to={item.path} onClick={megaClose} className={navLinkClass}>
+                          {item.name}
+                        </NavLink>
+                      </div>
+                    );
+                  }
+                  return (
+                    <NavLink key={item.path} to={item.path} className={navLinkClass}>
+                      {item.name}
+                    </NavLink>
+                  );
+                })}
+            </div>
+
+            {/* ═══ CENTER: Logo ═══ */}
             <Link
               to="/"
               className={cn(
-                'font-display text-2xl font-bold transition-all duration-300',
-                'hover:tracking-widest',
-                isTransparent ? 'text-white' : 'text-primary'
+                'font-display tracking-[0.15em] transition-all duration-500 flex-shrink-0',
+                scrolled ? 'text-xl' : 'text-2xl lg:text-[28px]',
+                isTransparent ? 'text-white' : 'text-primary',
+                'hover:tracking-[0.25em]'
               )}
             >
               LUXE
             </Link>
 
-            {/* Center nav links - hidden on mobile */}
-            <div className="hidden md:flex items-center gap-8">
-              {mainNav.map((item) => {
-                const isShop = item.name === 'Shop' && item.children;
-
-                if (isShop) {
-                  return (
-                    <div
-                      key={item.path}
-                      className="relative"
-                      onMouseEnter={handleMegaMenuEnter}
-                      onMouseLeave={handleMegaMenuLeave}
-                    >
-                      <NavLink
-                        to={item.path}
-                        onClick={closeMegaMenu}
-                        className={({ isActive }) =>
-                          cn(
-                            'text-sm font-body tracking-wide transition-colors duration-300',
-                            'underline-grow pb-1',
-                            isActive
-                              ? 'text-accent'
-                              : isTransparent
-                                ? 'text-white/90 hover:text-white'
-                                : 'text-primary hover:text-accent'
-                          )
-                        }
-                      >
-                        {item.name}
-                      </NavLink>
-                    </div>
-                  );
-                }
-
-                return (
-                  <NavLink
-                    key={item.path}
-                    to={item.path}
-                    className={({ isActive }) =>
-                      cn(
-                        'text-sm font-body tracking-wide transition-colors duration-300',
-                        'underline-grow pb-1',
-                        isActive
-                          ? 'text-accent'
-                          : isTransparent
-                            ? 'text-white/90 hover:text-white'
-                            : 'text-primary hover:text-accent'
-                      )
-                    }
-                  >
+            {/* ═══ RIGHT: Nav Links + Icons ═══ */}
+            <div className="hidden lg:flex items-center gap-7 flex-1 justify-end">
+              {mainNav
+                .filter((item) => rightNav.includes(item.name))
+                .map((item) => (
+                  <NavLink key={item.path} to={item.path} className={navLinkClass}>
                     {item.name}
                   </NavLink>
-                );
-              })}
-            </div>
+                ))}
 
-            {/* Right icons */}
-            <div className="flex items-center gap-4">
+              {/* Divider */}
+              <div className={cn(
+                'w-px h-4 transition-colors duration-300',
+                isTransparent ? 'bg-white/20' : 'bg-border'
+              )} />
+
               {/* Search */}
               <button
                 onClick={() => setSearchOpen(true)}
                 className={cn(
                   'transition-colors duration-300',
-                  isTransparent
-                    ? 'text-white/90 hover:text-white'
-                    : 'text-primary hover:text-accent'
+                  isTransparent ? 'text-white/80 hover:text-white' : 'text-primary/60 hover:text-primary'
                 )}
                 aria-label="Search"
               >
-                <Search size={20} />
+                <Search size={19} strokeWidth={1.5} />
               </button>
+
+              {/* Wishlist placeholder */}
+              <Link
+                to="/account"
+                className={cn(
+                  'transition-colors duration-300',
+                  isTransparent ? 'text-white/80 hover:text-white' : 'text-primary/60 hover:text-primary'
+                )}
+                aria-label="Wishlist"
+              >
+                <Heart size={19} strokeWidth={1.5} />
+              </Link>
 
               {/* Account */}
               <Link
                 to="/account"
                 className={cn(
-                  'hidden sm:block transition-colors duration-300',
-                  isTransparent
-                    ? 'text-white/90 hover:text-white'
-                    : 'text-primary hover:text-accent'
+                  'transition-colors duration-300',
+                  isTransparent ? 'text-white/80 hover:text-white' : 'text-primary/60 hover:text-primary'
                 )}
                 aria-label="Account"
               >
-                <User size={20} />
+                <User size={19} strokeWidth={1.5} />
               </Link>
 
               {/* Cart */}
@@ -204,152 +208,181 @@ export default function Navbar() {
                 onClick={() => setCartOpen(true)}
                 className={cn(
                   'relative transition-colors duration-300',
-                  isTransparent
-                    ? 'text-white/90 hover:text-white'
-                    : 'text-primary hover:text-accent',
-                  cartBounce && 'animate-bounce'
+                  isTransparent ? 'text-white/80 hover:text-white' : 'text-primary/60 hover:text-primary',
+                  cartBounce && 'animate-bounce-once'
                 )}
                 aria-label="Cart"
               >
-                <ShoppingBag size={20} />
+                <ShoppingBag size={19} strokeWidth={1.5} />
                 {cartCount > 0 && (
-                  <span
-                    className={cn(
-                      'absolute -top-2 -right-2',
-                      'bg-accent text-white text-xs rounded-full',
-                      'w-5 h-5 flex items-center justify-center',
-                      'font-body font-medium'
-                    )}
-                  >
+                  <span className="absolute -top-1.5 -right-1.5 bg-accent text-white text-[10px] font-medium rounded-full w-4 h-4 flex items-center justify-center leading-none">
+                    {cartCount}
+                  </span>
+                )}
+              </button>
+            </div>
+
+            {/* ═══ MOBILE: Icons ═══ */}
+            <div className="flex lg:hidden items-center gap-3">
+              <button
+                onClick={() => setSearchOpen(true)}
+                className={cn(
+                  'transition-colors duration-300 p-1',
+                  isTransparent ? 'text-white/80 hover:text-white' : 'text-primary/60 hover:text-primary'
+                )}
+                aria-label="Search"
+              >
+                <Search size={20} strokeWidth={1.5} />
+              </button>
+
+              <button
+                onClick={() => setCartOpen(true)}
+                className={cn(
+                  'relative transition-colors duration-300 p-1',
+                  isTransparent ? 'text-white/80 hover:text-white' : 'text-primary/60 hover:text-primary'
+                )}
+                aria-label="Cart"
+              >
+                <ShoppingBag size={20} strokeWidth={1.5} />
+                {cartCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 bg-accent text-white text-[10px] font-medium rounded-full w-4 h-4 flex items-center justify-center leading-none">
                     {cartCount}
                   </span>
                 )}
               </button>
 
-              {/* Mobile hamburger */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
                 className={cn(
-                  'md:hidden transition-colors duration-300',
-                  isTransparent
-                    ? 'text-white/90 hover:text-white'
-                    : 'text-primary hover:text-accent'
+                  'transition-colors duration-300 p-1',
+                  isTransparent ? 'text-white/80 hover:text-white' : 'text-primary/60 hover:text-primary'
                 )}
-                aria-label="Open menu"
+                aria-label="Menu"
               >
-                <Menu size={22} />
+                <Menu size={22} strokeWidth={1.5} />
               </button>
             </div>
           </div>
-        </div>
+        </nav>
 
-        {/* Mega-Menu Dropdown */}
+        {/* ═══════════════════════════════════
+            MEGA-MENU
+            ═══════════════════════════════════ */}
         <AnimatePresence>
-          {megaMenuOpen && shopItem && (
+          {megaMenuOpen && shopData && (
             <motion.div
               variants={megaMenuVariants}
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="absolute top-full left-0 w-full bg-white/80 backdrop-blur-3xl shadow-2xl border-t border-border/30"
-              onMouseEnter={handleMegaMenuEnter}
-              onMouseLeave={handleMegaMenuLeave}
+              className="absolute top-full left-0 w-full bg-white shadow-xl border-t border-border/30"
+              onMouseEnter={megaEnter}
+              onMouseLeave={megaLeave}
             >
-              <div className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-12 gap-8">
-                {/* Left: Category Links */}
-                <div className="col-span-7">
-                  <div className="grid grid-cols-3 gap-4">
-                    {shopItem.children.map((category) => (
-                      <Link
-                        key={category.path}
-                        to={category.path}
-                        onClick={closeMegaMenu}
-                        className="flex items-center gap-3 group p-2 rounded-lg hover:bg-bg-secondary transition-colors duration-200"
-                      >
-                        {category.image ? (
-                          <img
-                            src={category.image}
-                            alt={category.name}
-                            className="w-12 h-12 rounded-full object-cover flex-shrink-0 ring-2 ring-transparent group-hover:ring-accent/30 transition-all duration-300"
-                          />
-                        ) : (
-                          <div className="w-12 h-12 rounded-full bg-accent/10 flex-shrink-0 flex items-center justify-center ring-2 ring-transparent group-hover:ring-accent/30 transition-all duration-300">
-                            <Grid3X3 size={18} className="text-accent" />
-                          </div>
-                        )}
-                        <span className="font-body font-medium text-sm text-primary group-hover:text-accent transition-colors duration-200">
-                          {category.name}
-                        </span>
-                      </Link>
-                    ))}
-                  </div>
-                  <div className="mt-6 pt-4 border-t border-border/30">
-                    <Link
-                      to="/shop"
-                      onClick={closeMegaMenu}
-                      className="inline-flex items-center gap-2 text-accent font-body text-sm font-medium hover:text-accent-dark transition-colors duration-200 group"
-                    >
-                      View All Categories
-                      <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
-                    </Link>
-                  </div>
-                </div>
+              <div className="max-w-7xl mx-auto px-6 py-10">
+                <div className="grid grid-cols-12 gap-10">
 
-                {/* Right: Featured Promotional Card */}
-                {shopItem.featured && (
-                  <div className="col-span-5">
-                    <Link
-                      to={shopItem.featured.path}
-                      onClick={closeMegaMenu}
-                      className="block rounded-xl overflow-hidden relative group shadow-lg hover:shadow-xl transition-shadow duration-300"
-                    >
-                      <div className="aspect-[16/9] w-full">
-                        <img
-                          src={shopItem.featured.image}
-                          alt={shopItem.featured.title}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                      </div>
-                      {/* Gradient overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                      {/* Text content */}
-                      <div className="absolute bottom-0 left-0 right-0 p-5">
-                        <h3 className="font-display text-xl text-white mb-1">
-                          {shopItem.featured.title}
-                        </h3>
-                        <p className="text-white/70 text-sm font-body">
-                          {shopItem.featured.description}
-                        </p>
-                      </div>
-                    </Link>
+                  {/* Left: Category Cards Grid */}
+                  <div className="col-span-8">
+                    <p className="text-[11px] font-mono uppercase tracking-[0.15em] text-text-muted mb-5">
+                      Shop by Category
+                    </p>
+                    <div className="grid grid-cols-5 gap-4">
+                      {shopCategories.map((cat) => (
+                        <Link
+                          key={cat.path}
+                          to={cat.path}
+                          onClick={megaClose}
+                          className="group text-center"
+                        >
+                          <div className="aspect-[4/5] rounded-xl overflow-hidden mb-3 bg-bg-secondary">
+                            <img
+                              src={cat.image}
+                              alt={cat.name}
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                              loading="lazy"
+                            />
+                          </div>
+                          <span className="text-xs font-body font-medium text-primary/80 group-hover:text-accent transition-colors duration-200">
+                            {cat.name}
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+
+                    {/* Quick links */}
+                    <div className="flex items-center gap-6 mt-8 pt-5 border-t border-border/40">
+                      <Link
+                        to="/shop"
+                        onClick={megaClose}
+                        className="text-xs font-body font-medium text-primary/60 hover:text-accent transition-colors inline-flex items-center gap-1.5 group"
+                      >
+                        All Products
+                        <ArrowRight size={12} className="transition-transform group-hover:translate-x-0.5" />
+                      </Link>
+                      <Link
+                        to="/shop?filter=new"
+                        onClick={megaClose}
+                        className="text-xs font-body font-medium text-primary/60 hover:text-accent transition-colors"
+                      >
+                        New Arrivals
+                      </Link>
+                      <Link
+                        to="/shop?filter=sale"
+                        onClick={megaClose}
+                        className="text-xs font-body font-medium text-accent hover:text-accent-dark transition-colors"
+                      >
+                        Sale
+                      </Link>
+                    </div>
                   </div>
-                )}
+
+                  {/* Right: Featured Card */}
+                  {shopData.featured && (
+                    <div className="col-span-4">
+                      <p className="text-[11px] font-mono uppercase tracking-[0.15em] text-text-muted mb-5">
+                        Featured
+                      </p>
+                      <Link
+                        to={shopData.featured.path}
+                        onClick={megaClose}
+                        className="block rounded-xl overflow-hidden relative group h-full min-h-[260px]"
+                      >
+                        <img
+                          src={shopData.featured.image}
+                          alt={shopData.featured.title}
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                        <div className="absolute bottom-0 left-0 right-0 p-6">
+                          <p className="text-[11px] font-mono uppercase tracking-wider text-accent-light mb-2">
+                            {shopData.featured.description}
+                          </p>
+                          <h3 className="font-display text-xl text-white mb-3">
+                            {shopData.featured.title}
+                          </h3>
+                          <span className="inline-flex items-center gap-2 text-white text-sm font-medium group-hover:gap-3 transition-all">
+                            Shop Now <ArrowRight size={14} />
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                  )}
+                </div>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
-      </nav>
+      </header>
 
-      {/* Spacer to account for fixed navbar when NOT on dark hero pages */}
-      {!hasDarkHero && <div className="h-16" />}
+      {/* Spacer: accounts for fixed header on non-dark-hero pages */}
+      {!hasDarkHero && <div className="h-16 lg:h-[72px]" />}
 
-      {/* Mobile menu */}
-      <MobileMenu
-        isOpen={mobileMenuOpen}
-        onClose={() => setMobileMenuOpen(false)}
-      />
-
-      {/* Search overlay */}
-      <ProductSearch
-        isOpen={searchOpen}
-        onClose={() => setSearchOpen(false)}
-      />
-
-      {/* Cart drawer */}
-      <CartDrawer
-        isOpen={cartOpen}
-        onClose={() => setCartOpen(false)}
-      />
+      {/* Overlays */}
+      <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
+      <ProductSearch isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+      <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
     </>
   );
 }

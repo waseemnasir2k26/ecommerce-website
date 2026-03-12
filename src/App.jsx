@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CartProvider } from './context/CartContext'
 import { AuthProvider } from './context/AuthContext'
-import AnnouncementBar from './components/layout/AnnouncementBar'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import HomePage from './pages/HomePage'
@@ -63,7 +62,6 @@ function App() {
         <CartProvider>
           <ScrollToTop />
           <div className="flex min-h-screen flex-col font-body">
-            <AnnouncementBar />
             <Navbar />
             <main className="flex-1">
               <AnimatedRoutes />
