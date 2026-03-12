@@ -42,10 +42,10 @@ const milestones = [
 ];
 
 const team = [
-  { name: 'Alex Chen', role: 'Founder & CEO', initials: 'AC', color: 'bg-blue-100 text-blue-600' },
-  { name: 'Maya Patel', role: 'Head of Design', initials: 'MP', color: 'bg-purple-100 text-purple-600' },
-  { name: 'James Wilson', role: 'Head of Product', initials: 'JW', color: 'bg-emerald-100 text-emerald-600' },
-  { name: 'Sofia Rodriguez', role: 'Head of Marketing', initials: 'SR', color: 'bg-amber-100 text-amber-600' },
+  { name: 'Alex Chen', role: 'Founder & CEO', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80' },
+  { name: 'Maya Patel', role: 'Head of Design', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80' },
+  { name: 'James Wilson', role: 'Head of Product', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80' },
+  { name: 'Sofia Rodriguez', role: 'Head of Marketing', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80' },
 ];
 
 const values = [
@@ -90,17 +90,22 @@ export default function AboutPage() {
   return (
     <main>
       {/* ─── Hero ─── */}
-      <section aria-label="About LUXE hero" className="min-h-[60vh] bg-bg-secondary flex items-center justify-center">
+      <section
+        aria-label="About LUXE hero"
+        className="min-h-[60vh] flex items-center justify-center relative bg-cover bg-center"
+        style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1600&q=80)' }}
+      >
+        <div className="absolute inset-0 bg-black/50" />
         <motion.div
           initial="hidden"
           animate="visible"
           variants={fadeUp}
-          className="text-center px-6"
+          className="text-center px-6 relative z-10"
         >
-          <h1 className="font-display text-5xl lg:text-7xl text-primary mb-4">
+          <h1 className="font-display text-5xl lg:text-7xl text-white mb-4">
             Our Story
           </h1>
-          <p className="text-text-secondary text-xl font-body max-w-lg mx-auto">
+          <p className="text-white/80 text-xl font-body max-w-lg mx-auto">
             Built on quality. Driven by purpose.
           </p>
         </motion.div>
@@ -116,8 +121,15 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="aspect-[4/5] bg-bg-secondary rounded-2xl"
-            />
+              className="aspect-[4/5] rounded-2xl overflow-hidden"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&q=80"
+                alt="Our team collaborating"
+                className="w-full h-full object-cover rounded-2xl"
+                loading="lazy"
+              />
+            </motion.div>
 
             {/* Right — Copy */}
             <motion.div
@@ -293,16 +305,12 @@ export default function AboutPage() {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="text-center group"
               >
-                {/* Avatar placeholder */}
-                <div
-                  className={cn(
-                    'w-24 h-24 rounded-full mx-auto flex items-center justify-center',
-                    'text-xl font-semibold',
-                    member.color
-                  )}
-                >
-                  {member.initials}
-                </div>
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className="w-24 h-24 rounded-full mx-auto object-cover mb-4"
+                  loading="lazy"
+                />
 
                 <h3 className="font-semibold text-primary mt-4">{member.name}</h3>
                 <p className="text-text-secondary text-sm font-body">{member.role}</p>

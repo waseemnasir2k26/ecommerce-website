@@ -53,26 +53,21 @@ export default function CategoryGrid({ categories = [] }) {
                   to={`/shop/${category.id}`}
                   className="block w-full h-full"
                 >
-                  {/* Background placeholder */}
+                  {/* Category image */}
                   <div
                     className={cn(
-                      'bg-bg-secondary w-full transition-transform duration-500 group-hover:scale-105',
+                      'w-full',
                       isFeature
                         ? 'aspect-square lg:aspect-auto lg:h-full min-h-[240px]'
                         : 'aspect-square min-h-[160px]'
                     )}
                   >
-                    {/* Category initial as placeholder */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span
-                        className={cn(
-                          'font-display text-text-muted/20 select-none',
-                          isFeature ? 'text-8xl lg:text-9xl' : 'text-6xl'
-                        )}
-                      >
-                        {category.name.charAt(0)}
-                      </span>
-                    </div>
+                    <img
+                      src={category.image}
+                      alt={category.name}
+                      loading="lazy"
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
                   </div>
 
                   {/* Gradient overlay */}

@@ -7,7 +7,11 @@ export const products = [
     category: "electronics",
     price: 249.99,
     originalPrice: 299.99,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80",
+      "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=600&q=80",
+      "https://images.unsplash.com/photo-1487215078519-e21cc028cb29?w=600&q=80"
+    ],
     rating: 4.8,
     reviewCount: 312,
     description:
@@ -31,7 +35,11 @@ export const products = [
     category: "electronics",
     price: 599.99,
     originalPrice: null,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600&q=80",
+      "https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=600&q=80",
+      "https://images.unsplash.com/photo-1616763355548-1b11cea010b9?w=600&q=80"
+    ],
     rating: 4.6,
     reviewCount: 187,
     description:
@@ -55,7 +63,11 @@ export const products = [
     category: "electronics",
     price: 79.99,
     originalPrice: null,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&q=80",
+      "https://images.unsplash.com/photo-1589003077984-894e133dabab?w=600&q=80",
+      "https://images.unsplash.com/photo-1558089687-f282ffcbc126?w=600&q=80"
+    ],
     rating: 4.4,
     reviewCount: 543,
     description:
@@ -79,7 +91,11 @@ export const products = [
     category: "electronics",
     price: 149.99,
     originalPrice: 179.99,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1558089687-f282ffcbc126?w=600&q=80",
+      "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&q=80",
+      "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&q=80"
+    ],
     rating: 4.2,
     reviewCount: 98,
     description:
@@ -105,7 +121,11 @@ export const products = [
     category: "clothing",
     price: 59.99,
     originalPrice: null,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600&q=80",
+      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&q=80",
+      "https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?w=600&q=80"
+    ],
     rating: 4.5,
     reviewCount: 276,
     description:
@@ -129,7 +149,11 @@ export const products = [
     category: "clothing",
     price: 189.99,
     originalPrice: 239.99,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1544923246-77307dd270b5?w=600&q=80",
+      "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=600&q=80",
+      "https://images.unsplash.com/photo-1515191107209-c28698631303?w=600&q=80"
+    ],
     rating: 4.7,
     reviewCount: 164,
     description:
@@ -153,7 +177,11 @@ export const products = [
     category: "clothing",
     price: 49.99,
     originalPrice: null,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=600&q=80",
+      "https://images.unsplash.com/photo-1556906781-9a412961c28c?w=600&q=80",
+      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80"
+    ],
     rating: 4.3,
     reviewCount: 421,
     description:
@@ -177,7 +205,11 @@ export const products = [
     category: "clothing",
     price: 29.99,
     originalPrice: null,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80",
+      "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600&q=80",
+      "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&q=80"
+    ],
     rating: 4.1,
     reviewCount: 89,
     description:
@@ -203,7 +235,11 @@ export const products = [
     category: "accessories",
     price: 44.99,
     originalPrice: null,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&q=80",
+      "https://images.unsplash.com/photo-1556656793-08538906a9f8?w=600&q=80",
+      "https://images.unsplash.com/photo-1612902456551-404b5b2e90ef?w=600&q=80"
+    ],
     rating: 4.9,
     reviewCount: 638,
     description:
@@ -227,7 +263,11 @@ export const products = [
     category: "accessories",
     price: 89.99,
     originalPrice: 119.99,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&q=80",
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&q=80",
+      "https://images.unsplash.com/photo-1509695507497-903c140c43b0?w=600&q=80"
+    ],
     rating: 4.6,
     reviewCount: 215,
     description:
@@ -251,7 +291,11 @@ export const products = [
     category: "accessories",
     price: 119.99,
     originalPrice: null,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=80",
+      "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&q=80",
+      "https://images.unsplash.com/photo-1622560480654-d96214fdc887?w=600&q=80"
+    ],
     rating: 4.5,
     reviewCount: 173,
     description:
@@ -275,7 +319,11 @@ export const products = [
     category: "accessories",
     price: 349.99,
     originalPrice: null,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=600&q=80",
+      "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600&q=80",
+      "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=600&q=80"
+    ],
     rating: 4.7,
     reviewCount: 92,
     description:
@@ -301,7 +349,11 @@ export const products = [
     category: "home",
     price: 159.99,
     originalPrice: 199.99,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1600166898405-da9535204843?w=600&q=80",
+      "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=80",
+      "https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=600&q=80"
+    ],
     rating: 4.4,
     reviewCount: 201,
     description:
@@ -325,7 +377,11 @@ export const products = [
     category: "home",
     price: 54.99,
     originalPrice: null,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80",
+      "https://images.unsplash.com/photo-1517256064527-7e0b01c11635?w=600&q=80",
+      "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&q=80"
+    ],
     rating: 4.8,
     reviewCount: 347,
     description:
@@ -349,7 +405,11 @@ export const products = [
     category: "home",
     price: 39.99,
     originalPrice: null,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=80",
+      "https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=600&q=80",
+      "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=600&q=80"
+    ],
     rating: 4.3,
     reviewCount: 156,
     description:
@@ -373,7 +433,11 @@ export const products = [
     category: "home",
     price: 79.99,
     originalPrice: null,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1580301762395-21ce5da20d5c?w=600&q=80",
+      "https://images.unsplash.com/photo-1616627547584-bf28cee262db?w=600&q=80",
+      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80"
+    ],
     rating: 4.6,
     reviewCount: 118,
     description:
@@ -399,7 +463,11 @@ export const products = [
     category: "sports",
     price: 134.99,
     originalPrice: null,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80",
+      "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&q=80",
+      "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=600&q=80"
+    ],
     rating: 4.7,
     reviewCount: 289,
     description:
@@ -423,7 +491,11 @@ export const products = [
     category: "sports",
     price: 34.99,
     originalPrice: 44.99,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=600&q=80",
+      "https://images.unsplash.com/photo-1570831739435-6601aa3fa4fb?w=600&q=80",
+      "https://images.unsplash.com/photo-1523362628745-0c100150b504?w=600&q=80"
+    ],
     rating: 4.5,
     reviewCount: 782,
     description:
@@ -447,7 +519,11 @@ export const products = [
     category: "sports",
     price: 68.99,
     originalPrice: null,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=600&q=80",
+      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=80",
+      "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80"
+    ],
     rating: 4.4,
     reviewCount: 203,
     description:
@@ -471,7 +547,11 @@ export const products = [
     category: "sports",
     price: 59.99,
     originalPrice: null,
-    images: ["/images/products/placeholder.svg"],
+    images: [
+      "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80",
+      "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=600&q=80",
+      "https://images.unsplash.com/photo-1478827536114-da961b7f86d2?w=600&q=80"
+    ],
     rating: 4.6,
     reviewCount: 167,
     description:

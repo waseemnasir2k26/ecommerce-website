@@ -299,9 +299,6 @@ export default function ProductDetailPage() {
   const hasImage =
     images && images.length > 0 && !images[0].includes('placeholder');
 
-  // Thumbnails — simulate 4 angles
-  const thumbnails = [0, 1, 2, 3];
-
   return (
     <main>
       <div className="max-w-7xl mx-auto px-6 py-12">
@@ -342,7 +339,7 @@ export default function ProductDetailPage() {
             >
               {hasImage ? (
                 <img
-                  src={images[0]}
+                  src={images[activeThumb] || images[0]}
                   alt={name}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
@@ -366,30 +363,23 @@ export default function ProductDetailPage() {
 
             {/* Thumbnails */}
             <div className="flex gap-3 mt-4">
-              {thumbnails.map((idx) => (
+              {images.map((imgUrl, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActiveThumb(idx)}
                   className={cn(
-                    'w-20 h-20 rounded-lg bg-bg-secondary overflow-hidden flex-shrink-0 transition-all cursor-pointer',
+                    'w-20 h-20 rounded-lg overflow-hidden border-2 transition-all cursor-pointer',
                     activeThumb === idx
-                      ? 'ring-2 ring-accent ring-offset-2'
-                      : 'ring-1 ring-border hover:ring-text-muted'
+                      ? 'border-accent ring-2 ring-accent/20'
+                      : 'border-border hover:border-accent/50'
                   )}
                 >
-                  {hasImage ? (
-                    <img
-                      src={images[0]}
-                      alt={`${name} view ${idx + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <span className="font-display text-xs text-text-muted/40 select-none">
-                        {idx + 1}
-                      </span>
-                    </div>
-                  )}
+                  <img
+                    src={imgUrl}
+                    alt={`${name} view ${idx + 1}`}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
                 </button>
               ))}
             </div>

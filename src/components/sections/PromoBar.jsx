@@ -5,7 +5,18 @@ import { cn } from '../../utils/cn';
 
 export default function PromoBar() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-r from-accent to-accent-dark py-16 lg:py-24">
+    <section className="relative overflow-hidden py-16 lg:py-24">
+      {/* Background lifestyle image */}
+      <img
+        src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600&q=80"
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover"
+        loading="lazy"
+      />
+
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-accent/90 to-accent-dark/90" />
+
       {/* Subtle dot pattern overlay */}
       <div
         className="absolute inset-0 opacity-[0.08]"

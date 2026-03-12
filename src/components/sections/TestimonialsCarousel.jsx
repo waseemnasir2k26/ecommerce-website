@@ -125,9 +125,24 @@ export default function TestimonialsCarousel({ testimonials = defaultTestimonial
       <p className="font-body text-lg italic text-text-secondary flex-1 mb-6">
         &ldquo;{testimonial.quote}&rdquo;
       </p>
-      <div>
-        <p className="font-semibold text-primary">{testimonial.name}</p>
-        <p className="text-sm text-text-muted">{testimonial.location}</p>
+      <div className="flex items-center gap-3">
+        {testimonial.avatar && (
+          <img
+            src={testimonial.avatar}
+            alt={testimonial.name}
+            className="w-12 h-12 rounded-full object-cover"
+            loading="lazy"
+          />
+        )}
+        <div>
+          <p className="font-semibold text-primary">{testimonial.name}</p>
+          <p className="text-sm text-text-muted">{testimonial.location}</p>
+          {testimonial.product && (
+            <p className="text-xs text-accent font-mono mt-0.5">
+              Purchased: {testimonial.product}
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

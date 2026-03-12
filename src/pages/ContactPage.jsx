@@ -111,20 +111,36 @@ export default function ContactPage() {
   return (
     <main>
       {/* ─── Hero ─── */}
-      <section aria-label="Contact page hero" className="py-20 lg:py-32 text-center bg-bg">
+      <section aria-label="Contact page hero" className="py-20 lg:py-32 bg-bg">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h1 className="font-display text-5xl text-primary mb-4">
-              Get in Touch
-            </h1>
-            <p className="text-text-secondary text-xl font-body max-w-lg mx-auto">
-              We're here to help. Reach out anytime.
-            </p>
-          </motion.div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center lg:text-left"
+            >
+              <h1 className="font-display text-5xl text-primary mb-4">
+                Get in Touch
+              </h1>
+              <p className="text-text-secondary text-xl font-body max-w-lg mx-auto lg:mx-0">
+                We're here to help. Reach out anytime.
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="hidden lg:block"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80"
+                alt="Customer service"
+                className="rounded-2xl w-full aspect-[4/3] object-cover shadow-lg"
+                loading="lazy"
+              />
+            </motion.div>
+          </div>
         </div>
       </section>
 

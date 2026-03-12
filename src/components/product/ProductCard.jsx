@@ -13,23 +13,6 @@ const badgeVariantMap = {
   Bestseller: 'bestseller',
 };
 
-function ProductPlaceholder({ name }) {
-  const initials = name
-    .split(' ')
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join('')
-    .toUpperCase();
-
-  return (
-    <div className="absolute inset-0 flex items-center justify-center bg-bg-secondary">
-      <span className="font-display text-4xl text-text-muted/40 select-none">
-        {initials}
-      </span>
-    </div>
-  );
-}
-
 function StarRating({ rating, reviewCount }) {
   return (
     <div className="flex items-center gap-1.5">
@@ -66,26 +49,34 @@ export default function ProductCard({ product, onQuickView }) {
     category,
   } = product;
 
-  const hasImage =
-    images && images.length > 0 && !images[0].includes('placeholder');
+  const hasImage = images && images.length > 0;
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="bg-white rounded-xl border border-border hover:shadow-md transition-all duration-300 overflow-hidden group"
+      className="bg-white rounded-xl border border-border hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden group"
     >
       {/* Image Container */}
       <div className="aspect-square overflow-hidden rounded-t-xl bg-bg-secondary relative">
-        {hasImage ? (
-          <img
-            src={images[0]}
-            alt={name}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        ) : (
-          <ProductPlaceholder name={name} />
+        {hasImage && (
+          <>
+            <img
+              src={images[0]}
+              alt={name}
+              className="absolute inset-0 w-full h-full object-cover transition-all duration-500 opacity-100 group-hover:opacity-0"
+              loading="lazy"
+            />
+            {images[1] && (
+              <img
+                src={images[1]}
+                alt={`${name} alternate view`}
+                className="absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
+                loading="lazy"
+              />
+            )}
+          </>
         )}
 
         {/* Badge */}
