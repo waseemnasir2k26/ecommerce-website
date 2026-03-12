@@ -9,6 +9,8 @@ import BentoGrid from '../components/sections/BentoGrid';
 import TestimonialsCarousel from '../components/sections/TestimonialsCarousel';
 import PromoBar from '../components/sections/PromoBar';
 import NewsletterSignup from '../components/sections/NewsletterSignup';
+import SocialProofToast from '../components/ui/SocialProofToast';
+import RecentlyViewed from '../components/sections/RecentlyViewed';
 import { products } from '../data/products';
 import { categories } from '../data/categories';
 import { testimonials } from '../data/testimonials';
@@ -24,6 +26,7 @@ export default function HomePage() {
 
   return (
     <main>
+      <SocialProofToast />
       <HeroSection />
       <BrandMarquee />
       <section aria-label="Shop by Category">
@@ -38,6 +41,7 @@ export default function HomePage() {
       </section>
       <BentoGrid />
       <StatsCounter />
+      <RecentlyViewed />
       <section aria-label="Newsletter Signup">
         <NewsletterSignup />
       </section>

@@ -1,11 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ShoppingBag, ArrowRight } from 'lucide-react';
+import { X, ShoppingBag, ArrowRight, Plus } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { formatPrice } from '../../utils/formatPrice';
 import { useCart } from '../../hooks/useCart';
 import CartItem from './CartItem';
+import { products } from '../../data/products';
 
 const FREE_SHIPPING_THRESHOLD = 75;
 
@@ -27,7 +28,7 @@ const drawerVariants = {
 };
 
 export default function CartDrawer({ isOpen, onClose }) {
-  const { items, cartCount, cartTotal } = useCart();
+  const { items, cartCount, cartTotal, addToCart } = useCart();
 
   // Lock body scroll when drawer is open
   useEffect(() => {
@@ -53,6 +54,20 @@ export default function CartDrawer({ isOpen, onClose }) {
   }, [isOpen, onClose]);
 
   const qualifiesForFreeShipping = cartTotal >= FREE_SHIPPING_THRESHOLD;
+  const shippingProgress = Math.min((cartTotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
+
+  // Cross-sell: pick 3 products not already in cart
+  const suggestions = useMemo(() => {
+    const cartIds = new Set(items.map((item) => item.product.id));
+    const available = products.filter((p) => !cartIds.has(p.id));
+    // Fisher-Yates shuffle (on a copy)
+    const shuffled = [...available];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled.slice(0, 3);
+  }, [items]);
 
   return (
     <AnimatePresence>
@@ -129,6 +144,53 @@ export default function CartDrawer({ isOpen, onClose }) {
                   {items.map((item) => (
                     <CartItem key={item.product.id} item={item} />
                   ))}
+
+                  {/* Cross-sell suggestions */}
+                  {suggestions.length > 0 && (
+                    <div className="pt-4 mt-4 border-t border-border">
+                      <h4 className="font-display text-sm font-semibold text-primary mb-3">
+                        You might also like
+                      </h4>
+                      <div className="space-y-3">
+                        {suggestions.map((product) => (
+                          <div
+                            key={product.id}
+                            className="flex items-center gap-3"
+                          >
+                            {product.images?.[0] ? (
+                              <img
+                                src={product.images[0]}
+                                alt={product.name}
+                                className="w-12 h-12 rounded-lg object-cover shrink-0"
+                              />
+                            ) : (
+                              <div className="w-12 h-12 rounded-lg bg-bg-secondary shrink-0" />
+                            )}
+                            <div className="flex-1 min-w-0">
+                              <p className="font-body text-xs font-medium text-primary truncate">
+                                {product.name}
+                              </p>
+                              <p className="font-mono text-xs text-accent">
+                                {formatPrice(product.price)}
+                              </p>
+                            </div>
+                            <button
+                              onClick={() => addToCart(product, 1)}
+                              className={cn(
+                                'shrink-0 w-8 h-8 rounded-lg flex items-center justify-center',
+                                'border border-border text-text-secondary',
+                                'hover:bg-accent hover:text-white hover:border-accent',
+                                'transition-all duration-200'
+                              )}
+                              aria-label={`Add ${product.name} to cart`}
+                            >
+                              <Plus size={14} />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Footer */}
@@ -143,25 +205,28 @@ export default function CartDrawer({ isOpen, onClose }) {
                     </span>
                   </div>
 
-                  {/* Free shipping note */}
-                  {!qualifiesForFreeShipping && (
-                    <p className="font-body text-xs text-text-muted text-center">
-                      Free shipping on orders over{' '}
-                      <span className="font-mono font-medium">
-                        {formatPrice(FREE_SHIPPING_THRESHOLD)}
-                      </span>
-                      {' '}&mdash; you're{' '}
-                      <span className="font-mono font-medium text-accent">
-                        {formatPrice(FREE_SHIPPING_THRESHOLD - cartTotal)}
-                      </span>{' '}
-                      away!
-                    </p>
-                  )}
-                  {qualifiesForFreeShipping && (
-                    <p className="font-body text-xs text-green-600 text-center font-medium">
-                      You qualify for free shipping!
-                    </p>
-                  )}
+                  {/* Free shipping progress bar */}
+                  <div className="space-y-2">
+                    <div className="w-full h-2 bg-bg-secondary rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-accent rounded-full transition-all duration-500 ease-out"
+                        style={{ width: `${shippingProgress}%` }}
+                      />
+                    </div>
+                    {qualifiesForFreeShipping ? (
+                      <p className="font-body text-xs text-green-600 text-center font-medium">
+                        {'\uD83C\uDF89'} You qualify for free shipping!
+                      </p>
+                    ) : (
+                      <p className="font-body text-xs text-text-muted text-center">
+                        You're{' '}
+                        <span className="font-mono font-medium text-accent">
+                          {formatPrice(FREE_SHIPPING_THRESHOLD - cartTotal)}
+                        </span>{' '}
+                        away from FREE shipping!
+                      </p>
+                    )}
+                  </div>
 
                   {/* Action buttons */}
                   <div className="flex flex-col gap-3">

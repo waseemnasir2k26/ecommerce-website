@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { CartProvider } from './context/CartContext'
 import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/layout/Navbar'
+import ChatWidget from './components/chat/ChatWidget'
 import Footer from './components/layout/Footer'
 import HomePage from './pages/HomePage'
 import ShopPage from './pages/ShopPage'
@@ -68,6 +69,7 @@ function App() {
             </main>
             <Footer />
           </div>
+          <ChatWidget />
         </CartProvider>
       </AuthProvider>
     </BrowserRouter>

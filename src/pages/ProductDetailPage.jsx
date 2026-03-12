@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -11,15 +11,20 @@ import {
   ShoppingBag,
   Check,
   ArrowLeft,
+  Shield,
+  RotateCcw,
+  Truck,
 } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { formatPrice } from '../utils/formatPrice';
 import { setPageSEO } from '../utils/seo';
 import { useCart } from '../hooks/useCart';
+import { useRecentlyViewed } from '../hooks/useRecentlyViewed';
 import products from '../data/products';
 import categories from '../data/categories';
 import ProductCard from '../components/product/ProductCard';
 import Badge from '../components/ui/Badge';
+import RecentlyViewed from '../components/sections/RecentlyViewed';
 
 const badgeVariantMap = {
   New: 'new',
@@ -188,6 +193,7 @@ function getSwatchColor(colorName) {
 export default function ProductDetailPage() {
   const { slug } = useParams();
   const { addToCart, isInCart } = useCart();
+  const { addRecentlyViewed } = useRecentlyViewed();
 
   const product = products.find((p) => p.slug === slug);
 
@@ -198,12 +204,32 @@ export default function ProductDetailPage() {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
   const [openAccordion, setOpenAccordion] = useState('description');
+  const [showStickyBar, setShowStickyBar] = useState(false);
+  const addToCartRef = useRef(null);
+
+  // Sticky bar: observe main Add to Cart button
+  useEffect(() => {
+    if (!addToCartRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowStickyBar(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(addToCartRef.current);
+    return () => observer.disconnect();
+  }, [product]);
 
   // Initialise defaults once product is available
   useEffect(() => {
     if (product) {
       if (product.colors?.length > 0) setSelectedColor(product.colors[0]);
       if (product.sizes?.length > 0) setSelectedSize(product.sizes[0]);
+    }
+  }, [product?.id]);
+
+  // Track recently viewed product
+  useEffect(() => {
+    if (product) {
+      addRecentlyViewed(product.id);
     }
   }, [product?.id]);
 
@@ -396,6 +422,14 @@ export default function ProductDetailPage() {
               </div>
             )}
 
+            {/* Stock Urgency for Bestsellers */}
+            {badge === 'Bestseller' && (
+              <div className="flex items-center gap-2 mb-3 text-sm">
+                <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
+                <span className="font-body text-orange-600 font-medium">Only a few left in stock</span>
+              </div>
+            )}
+
             {/* Name */}
             <h1 className="font-display text-3xl lg:text-4xl text-primary mb-3">
               {name}
@@ -442,6 +476,11 @@ export default function ProductDetailPage() {
                   OFF
                 </span>
               )}
+              {originalPrice && originalPrice > price && (
+                <span className="text-sm font-body text-success font-medium">
+                  You save {formatPrice(originalPrice - price)}
+                </span>
+              )}
             </div>
 
             {/* Short Description */}
@@ -450,6 +489,14 @@ export default function ProductDetailPage() {
                 ? description.slice(0, 200) + '...'
                 : description}
             </p>
+
+            {/* Estimated Delivery */}
+            <div className="flex items-center gap-2 mt-4 text-sm">
+              <Truck size={16} className="text-success" />
+              <span className="font-body text-text-secondary">
+                Order within <span className="font-medium text-primary">{23 - new Date().getHours()} hours</span> for delivery by <span className="font-medium text-primary">{new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}</span>
+              </span>
+            </div>
 
             {/* Divider */}
             <div className="border-t border-border my-6" />
@@ -539,6 +586,7 @@ export default function ProductDetailPage() {
 
             {/* Add to Cart */}
             <motion.button
+              ref={addToCartRef}
               whileTap={{ scale: 0.97 }}
               onClick={handleAddToCart}
               className={cn(
@@ -577,6 +625,22 @@ export default function ProductDetailPage() {
               />
               {isWishlisted ? 'Added to Wishlist' : 'Add to Wishlist'}
             </button>
+
+            {/* Trust Badges */}
+            <div className="flex items-center justify-center gap-6 mt-6 pt-6 border-t border-border">
+              <div className="flex items-center gap-2 text-text-secondary">
+                <Shield size={16} className="text-accent" strokeWidth={1.5} />
+                <span className="text-xs font-body">Secure Checkout</span>
+              </div>
+              <div className="flex items-center gap-2 text-text-secondary">
+                <RotateCcw size={16} className="text-accent" strokeWidth={1.5} />
+                <span className="text-xs font-body">30-Day Returns</span>
+              </div>
+              <div className="flex items-center gap-2 text-text-secondary">
+                <Truck size={16} className="text-accent" strokeWidth={1.5} />
+                <span className="text-xs font-body">Free Shipping $75+</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -690,6 +754,41 @@ export default function ProductDetailPage() {
           </div>
         </section>
       )}
+
+      {/* ── Recently Viewed ──────────────────────────────────────────────── */}
+      <RecentlyViewed />
+
+      {/* Sticky Mobile Add to Cart */}
+      <AnimatePresence>
+        {showStickyBar && product && (
+          <motion.div
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-white border-t border-border px-4 py-3 shadow-[0_-4px_12px_rgba(0,0,0,0.08)]"
+          >
+            <div className="flex items-center gap-3">
+              <div className="flex-1 min-w-0">
+                <p className="font-body text-sm font-medium text-primary truncate">{name}</p>
+                <p className="font-mono text-base font-semibold text-primary">{formatPrice(price)}</p>
+              </div>
+              <motion.button
+                whileTap={{ scale: 0.97 }}
+                onClick={handleAddToCart}
+                className={cn(
+                  'px-6 py-3 rounded-lg font-medium text-sm flex items-center gap-2 transition-all',
+                  inCart || addedToCart
+                    ? 'bg-green-600 text-white'
+                    : 'bg-accent text-white hover:bg-accent-dark'
+                )}
+              >
+                {inCart || addedToCart ? <><Check size={16} /> Added</> : <><ShoppingBag size={16} /> Add to Cart</>}
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

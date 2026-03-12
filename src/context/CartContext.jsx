@@ -1,4 +1,4 @@
-import { createContext, useReducer, useMemo } from 'react';
+import { createContext, useReducer, useMemo, useEffect } from 'react';
 
 export const CartContext = createContext(null);
 
@@ -68,12 +68,52 @@ function cartReducer(state, action) {
   }
 }
 
+const STORAGE_KEY = 'luxe-cart';
+
+function loadCartFromStorage() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    // Validate: must be an array of objects with product and quantity
+    if (
+      !Array.isArray(parsed) ||
+      !parsed.every(
+        (item) =>
+          item &&
+          typeof item === 'object' &&
+          item.product &&
+          typeof item.product.id === 'string' &&
+          typeof item.quantity === 'number' &&
+          item.quantity > 0
+      )
+    ) {
+      localStorage.removeItem(STORAGE_KEY);
+      return [];
+    }
+    return parsed;
+  } catch {
+    // Corrupted JSON — clear it and start fresh
+    localStorage.removeItem(STORAGE_KEY);
+    return [];
+  }
+}
+
 const initialState = {
-  items: [],
+  items: loadCartFromStorage(),
 };
 
 export function CartProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
+
+  // Persist cart items to localStorage on every change
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.items));
+    } catch {
+      // Storage full or unavailable — fail silently
+    }
+  }, [state.items]);
 
   const addToCart = (product, quantity = 1) => {
     dispatch({
