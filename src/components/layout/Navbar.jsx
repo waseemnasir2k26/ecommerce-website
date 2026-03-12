@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Search, User, ShoppingBag, Menu } from 'lucide-react';
+import { Search, User, ShoppingBag, Menu, Grid3X3, ArrowRight } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '../../utils/cn';
 import { mainNav } from '../../data/navigation';
@@ -251,7 +251,7 @@ export default function Navbar() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="absolute top-full left-0 w-full bg-white/95 backdrop-blur-2xl shadow-2xl border-t border-border/30"
+              className="absolute top-full left-0 w-full bg-white/80 backdrop-blur-3xl shadow-2xl border-t border-border/30"
               onMouseEnter={handleMegaMenuEnter}
               onMouseLeave={handleMegaMenuLeave}
             >
@@ -264,7 +264,7 @@ export default function Navbar() {
                         key={category.path}
                         to={category.path}
                         onClick={closeMegaMenu}
-                        className="flex items-center gap-3 group p-2 rounded-lg hover:bg-secondary/50 transition-colors duration-200"
+                        className="flex items-center gap-3 group p-2 rounded-lg hover:bg-bg-secondary transition-colors duration-200"
                       >
                         {category.image ? (
                           <img
@@ -272,12 +272,26 @@ export default function Navbar() {
                             alt={category.name}
                             className="w-12 h-12 rounded-full object-cover flex-shrink-0 ring-2 ring-transparent group-hover:ring-accent/30 transition-all duration-300"
                           />
-                        ) : null}
+                        ) : (
+                          <div className="w-12 h-12 rounded-full bg-accent/10 flex-shrink-0 flex items-center justify-center ring-2 ring-transparent group-hover:ring-accent/30 transition-all duration-300">
+                            <Grid3X3 size={18} className="text-accent" />
+                          </div>
+                        )}
                         <span className="font-body font-medium text-sm text-primary group-hover:text-accent transition-colors duration-200">
                           {category.name}
                         </span>
                       </Link>
                     ))}
+                  </div>
+                  <div className="mt-6 pt-4 border-t border-border/30">
+                    <Link
+                      to="/shop"
+                      onClick={closeMegaMenu}
+                      className="inline-flex items-center gap-2 text-accent font-body text-sm font-medium hover:text-accent-dark transition-colors duration-200 group"
+                    >
+                      View All Categories
+                      <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
+                    </Link>
                   </div>
                 </div>
 
@@ -287,7 +301,7 @@ export default function Navbar() {
                     <Link
                       to={shopItem.featured.path}
                       onClick={closeMegaMenu}
-                      className="block rounded-xl overflow-hidden relative group"
+                      className="block rounded-xl overflow-hidden relative group shadow-lg hover:shadow-xl transition-shadow duration-300"
                     >
                       <div className="aspect-[16/9] w-full">
                         <img

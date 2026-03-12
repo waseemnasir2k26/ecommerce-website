@@ -4,8 +4,8 @@ import { cn } from '../../utils/cn';
 
 const stats = [
   { value: 10000, suffix: '+', label: 'Happy Customers', decimals: 0, format: true },
-  { value: 50, suffix: '+', label: 'Countries', decimals: 0, format: false },
-  { value: 100, suffix: '%', label: 'Sustainable', decimals: 0, format: false },
+  { value: 50, suffix: '+', label: 'Countries Shipped', decimals: 0, format: false },
+  { value: 30, suffix: '', label: 'Day Returns', decimals: 0, format: false },
   { value: 4.9, suffix: '', label: 'Average Rating', decimals: 1, format: false },
 ];
 

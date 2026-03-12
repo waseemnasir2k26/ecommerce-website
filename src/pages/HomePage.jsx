@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { setPageSEO } from '../utils/seo';
 import HeroSection from '../components/sections/HeroSection';
-import TrustBadges from '../components/sections/TrustBadges';
 import BrandMarquee from '../components/sections/BrandMarquee';
 import CategoryGrid from '../components/sections/CategoryGrid';
 import FeaturedProducts from '../components/sections/FeaturedProducts';
@@ -26,7 +25,6 @@ export default function HomePage() {
   return (
     <main>
       <HeroSection />
-      <TrustBadges />
       <BrandMarquee />
       <section aria-label="Shop by Category">
         <CategoryGrid categories={categories} />
@@ -34,12 +32,12 @@ export default function HomePage() {
       <section aria-label="Featured Products">
         <FeaturedProducts products={products.slice(0, 8)} />
       </section>
-      <StatsCounter />
-      <BentoGrid />
+      <PromoBar />
       <section aria-label="Customer Testimonials">
         <TestimonialsCarousel testimonials={testimonials} />
       </section>
-      <PromoBar />
+      <BentoGrid />
+      <StatsCounter />
       <section aria-label="Newsletter Signup">
         <NewsletterSignup />
       </section>

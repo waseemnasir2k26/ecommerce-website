@@ -96,8 +96,8 @@ export default function CollectionsPage() {
         {/* Parallax background */}
         <motion.div className="absolute inset-0 z-0" style={{ y: heroY }}>
           <img
-            src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1600&q=80"
-            alt="Editorial fashion collection"
+            src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1600&q=80"
+            alt="Curated collections editorial"
             className="w-full h-[120%] object-cover"
           />
         </motion.div>

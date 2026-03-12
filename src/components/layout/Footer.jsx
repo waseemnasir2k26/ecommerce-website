@@ -4,21 +4,23 @@ import { cn } from '../../utils/cn';
 
 const companyLinks = [
   { name: 'About', path: '/about' },
-  { name: 'Careers', path: '/careers' },
-  { name: 'Press', path: '/press' },
+  { name: 'Careers', path: '#' },
+  { name: 'Press', path: '#' },
 ];
 
 const shopLinks = [
   { name: 'All Products', path: '/shop' },
   { name: 'New Arrivals', path: '/shop?filter=new' },
   { name: 'Sale', path: '/shop?filter=sale' },
+  { name: 'Collections', path: '/collections' },
+  { name: 'Lookbook', path: '/lookbook' },
 ];
 
 const supportLinks = [
   { name: 'Contact', path: '/contact' },
-  { name: 'FAQ', path: '/faq' },
-  { name: 'Shipping & Returns', path: '/shipping-returns' },
-  { name: 'Size Guide', path: '/size-guide' },
+  { name: 'FAQ', path: '/contact' },
+  { name: 'Shipping & Returns', path: '#' },
+  { name: 'Size Guide', path: '#' },
 ];
 
 const socialLinks = [
@@ -104,11 +106,11 @@ export default function Footer() {
             &copy; 2026 LUXE. All rights reserved.
           </p>
           <div className="flex items-center gap-4 text-sm font-body">
-            <Link to="/privacy" className="text-gray-400 hover:text-white transition">
+            <Link to="#" className="text-gray-400 hover:text-white transition">
               Privacy Policy
             </Link>
             <span className="text-gray-600">|</span>
-            <Link to="/terms" className="text-gray-400 hover:text-white transition">
+            <Link to="#" className="text-gray-400 hover:text-white transition">
               Terms of Service
             </Link>
           </div>

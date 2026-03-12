@@ -135,13 +135,13 @@ function ScrollytellingSection({ section, index }) {
       className="min-h-screen flex items-center bg-bg overflow-hidden"
     >
       <div
-        className={cn(
-          'mx-auto grid w-full max-w-7xl grid-cols-1 lg:grid-cols-2',
-          isEven ? '' : 'direction-rtl'
-        )}
+        className="mx-auto grid w-full max-w-7xl grid-cols-1 lg:grid-cols-2"
       >
         {/* Image side */}
-        <div className="relative h-[60vh] lg:h-screen overflow-hidden">
+        <div className={cn(
+          "relative h-[60vh] lg:h-screen overflow-hidden",
+          !isEven && "lg:order-2"
+        )}>
           <motion.img
             src={section.image}
             alt={section.headline}
@@ -156,7 +156,7 @@ function ScrollytellingSection({ section, index }) {
           ref={ref}
           className={cn(
             'flex flex-col justify-center px-8 py-16 lg:px-16 lg:py-0',
-            isEven ? '' : 'lg:order-first'
+            !isEven && 'lg:order-1'
           )}
         >
           <motion.span

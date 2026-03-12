@@ -8,7 +8,7 @@ export default function PromoBar() {
     <section className="relative overflow-hidden py-16 lg:py-24">
       {/* Background lifestyle image */}
       <img
-        src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600&q=80"
+        src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1600&q=80"
         alt=""
         className="absolute inset-0 w-full h-full object-cover"
         loading="lazy"
