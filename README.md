@@ -2,6 +2,10 @@
 
 A modern, production-grade e-commerce frontend built with React.js, Vite, and Tailwind CSS. Features 2026-trend-aligned design with warm neutrals, bold editorial typography, scroll-triggered animations, and a fully responsive mobile-first layout.
 
+## Status
+
+Last reviewed: September 2026 · release v2026.09
+
 ## Tech Stack
 
 - **React 18** with React Router v6
